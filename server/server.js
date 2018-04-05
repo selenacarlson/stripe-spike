@@ -1,8 +1,14 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const stripe = require("stripe")("sk_test_BQokikJOvBiI2HlWgH4olfQ2");
 const axios = require("axios");
+const env = require('dotenv');
+env.config();
+
+const stripe = require("stripe")(process.env.STRIPE_KEY);
+
+console.log('process.env.STRIPE_KEY', process.env.STRIPE_KEY);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -21,48 +27,62 @@ let token; // Using Express
 
 app.post('/stripe', function(req, res){
     token = req.body.stripeToken
+    console.log('token', token);
+    
     console.log(req.body);
-     
+    stripe.charges.create({
+        amount: 999,
+        currency: "usd",
+        description: "Example charge",
+        source: token,
+      }, function(err, charge) {
+        if (err){
+            console.log(err);
+        }
+        else {
+            console.log(charge);   
+        }
+      });
 })
 
-// Charge the user's card:
-stripe.charges.create({
-  amount: 999,
-  currency: "usd",
-  description: "Example charge",
-  source: token,
-}, function(err, charge) {
-  // asynchronously called
-});
+// // Charge the user's card:
+// stripe.charges.create({
+//   amount: 999,
+//   currency: "usd",
+//   description: "Example charge",
+//   source: token,
+// }, function(err, charge) {
+//   // asynchronously called
+// });
 
-stripe.charges.capture("ch_1A9eP02eZvKYlo2CkibleoVM", function(err, charge) {
-    // asynchronously called
-  });
+// stripe.charges.capture("ch_1A9eP02eZvKYlo2CkibleoVM", function(err, charge) {
+//     // asynchronously called
+//   });
 
-  (async function() {
-    // Create a Customer:
-    const customer = await stripe.customers.create({
-      source: 'tok_mastercard',
-      email: 'paying.user@example.com',
-    });
+//   (async function() {
+//     // Create a Customer:
+//     const customer = await stripe.customers.create({
+//       source: 'tok_mastercard',
+//       email: 'paying.user@example.com',
+//     });
   
-    // Charge the Customer instead of the card:
-    const charge = await stripe.charges.create({
-      amount: 1000,
-      currency: 'usd',
-      customer: 'CUSTOMER',
-    });
+//     // Charge the Customer instead of the card:
+//     const charge = await stripe.charges.create({
+//       amount: 1000,
+//       currency: 'usd',
+//       customer: 'CUSTOMER',
+//     });
   
-    // YOUR CODE: Save the customer ID and other info in a database for later.
+//     // YOUR CODE: Save the customer ID and other info in a database for later.
   
-  })();
+//   })();
   
-  (async function() {
-    // When it's time to charge the customer again, retrieve the customer ID.
-    const charge = stripe.charges.create({
-      amount: 1500, // $15.00 this time
-      currency: 'usd',
-      customer: 'CUSTOMER', // Previously stored, then retrieved
-    });
-  })();
+//   (async function() {
+//     // When it's time to charge the customer again, retrieve the customer ID.
+//     const charge = stripe.charges.create({
+//       amount: 1500, // $15.00 this time
+//       currency: 'usd',
+//       customer: 'CUSTOMER', // Previously stored, then retrieved
+//     });
+//   })();
   
