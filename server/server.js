@@ -20,7 +20,9 @@ app.listen(PORT, () => {
 let token; // Using Express
 
 app.post('/stripe', function(req, res){
-    token = req.body.stripeToken 
+    token = req.body.stripeToken
+    console.log(req.body);
+     
 })
 
 // Charge the user's card:
@@ -32,3 +34,35 @@ stripe.charges.create({
 }, function(err, charge) {
   // asynchronously called
 });
+
+stripe.charges.capture("ch_1A9eP02eZvKYlo2CkibleoVM", function(err, charge) {
+    // asynchronously called
+  });
+
+  (async function() {
+    // Create a Customer:
+    const customer = await stripe.customers.create({
+      source: 'tok_mastercard',
+      email: 'paying.user@example.com',
+    });
+  
+    // Charge the Customer instead of the card:
+    const charge = await stripe.charges.create({
+      amount: 1000,
+      currency: 'usd',
+      customer: 'CUSTOMER',
+    });
+  
+    // YOUR CODE: Save the customer ID and other info in a database for later.
+  
+  })();
+  
+  (async function() {
+    // When it's time to charge the customer again, retrieve the customer ID.
+    const charge = stripe.charges.create({
+      amount: 1500, // $15.00 this time
+      currency: 'usd',
+      customer: 'CUSTOMER', // Previously stored, then retrieved
+    });
+  })();
+  
