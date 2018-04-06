@@ -45,6 +45,51 @@ router.post('/charge', function (req, res) {
 // });
 
 
+router.get('/get_jenny', (req, res) => {
+    stripe.customers.retrieve('cus_CdF4mK0B8JtJtq', (err, customer) => {
+            if(err){
+                console.log('ERROR on stripe.customers.retrieve', err);
+                res.sendStatus(500);
+            } else {
+                res.send(customer);
+            }
+        }
+    )
+})
+
+router.get('/plan', (req, res) => {
+    stripe.plans.retrieve('plan_CdD9nqhlg5gy0w', (err, plan) => {
+        if(err){
+            console.log(err);
+            res.sendStatus(500)
+        } else {
+            res.send(plan);
+        }
+    });
+});
+
+router.post('/subscribe_jenny', (req, res) => {
+    console.log('customer id -----------', req.body.jennyRosen.id);
+    console.log('plan id ---------------', req.body.plan.id);
+    stripe.subscriptions.create({
+        customer: req.body.jennyRosen.id,
+        items: [
+            {
+                plan: req.body.plan.id,
+            }
+        ]
+    }, (err, subscription) => {
+        if(err){
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.send('SUBSCRIPTION ***********', subscription);
+        }
+    })
+})
+
+
+
 router.post('/make_customer', (req, res) => {
     let email = req.body.email;
     // console.log('EMAIL +++ + + ++ ++', email);

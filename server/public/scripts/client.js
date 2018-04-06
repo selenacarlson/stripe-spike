@@ -3,6 +3,8 @@ console.log('hi');
 
 window.onload = function() {
 
+
+
     //STEP 1: SET UP STRIPE ELEMENTS
     // include this <script src="https://js.stripe.com/v3/"></script> tag on 
     // all pages of the app for security purposes
@@ -79,6 +81,50 @@ window.onload = function() {
             console.log(err);
         });
     });
+
+    var plan = {};
+    var jennyRosen = {};
+
+    
+    getPlan()
+    
+
+    function subscribeJenny() {
+        axios.post('/stripe/subscribe_jenny', {jennyRosen: jennyRosen, plan: plan})
+        .then(response => {
+            console.log('SUCCESSFUL SUBSCRIPTION:', response);
+        }).catch(err => {
+            console.log(err);
+            
+        });
+    } 
+
+    function getPlan () {
+        axios.get('/stripe/plan')
+        .then(response => {
+            console.log(response);
+            plan = response.data;
+            console.log(plan);
+            getJenny();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    function getJenny() {
+        axios.get('/stripe/get_jenny')
+            .then(response => {
+                jennyRosen = response.data;
+                console.log(jennyRosen);
+                // var jenny = {}
+                subscribeJenny();
+            }).catch(err => {
+                console.log(err);
+            });
+    }
+
+
+    // subscribeJenny();
 
 
 }
