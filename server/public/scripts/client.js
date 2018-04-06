@@ -1,4 +1,3 @@
-
 console.log('hi');
 
 window.onload = function() {
@@ -37,48 +36,59 @@ window.onload = function() {
         }
     });
 
-    // STEP 3: CREATE A TOKEN TO SECURLY TRANSMIT CARD INFORMATION
-    // create a token or display an error when the form is submitted
     var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(e){
-        e.preventDefault();
-        stripe.createToken(card).then(function(result){
-            if(result.error){
-                // inform the customer that there was an error
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
+    var ownerInfo = {
+        owner: {
+            name: 'Jenny Rosen',
+            address: {
+            line1: 'Nollendorfstraße 27',
+            city: 'Berlin',
+            postal_code: '10777',
+            country: 'DE',
+            },
+            email: 'jenny.rosen@example.com'
+        },
+    };
+
+    form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+        stripe.createSource(card, ownerInfo).then(function(result) {
+            if (result.error) {
+            // Inform the user if there was an error
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
             } else {
-                // send the token to your server
-                console.log(result.token);
-                stripeTokenHandler(result.token);
+            // Send the source to your server
+            stripeSourceHandler(result.source);
             }
         });
     });
 
-    // STEP 4: SUBMIT THE TOKEN AND THE REST OF YOUR FORM TO YOUR SERVER
-    function stripeTokenHandler(token){
-        // Insert the token ID into the form so it gets submitted to the server
+    function stripeSourceHandler(source) {
+        // Insert the source ID into the form so it gets submitted to the server
         var form = document.getElementById('payment-form');
         var hiddenInput = document.createElement('input');
         hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
+        hiddenInput.setAttribute('name', 'stripeSource');
+        hiddenInput.setAttribute('value', source.id);
         form.appendChild(hiddenInput);
-        // submit the form
+      
+        // Submit the form
         form.submit();
-    }
+      }
 
-    var makeCustomerBtn = document.getElementById('make-customer');
-    makeCustomerBtn.addEventListener('click', function(){
-        var email = document.getElementById('customer-email').value;
-        axios.post('/stripe/make_customer', {email: email})
-        .then(response => {
-            console.log(response);
+    // var makeCustomerBtn = document.getElementById('make-customer');
+    // makeCustomerBtn.addEventListener('click', function(){
+    //     var email = document.getElementById('customer-email').value;
+    //     axios.post('/stripe/make_customer', {email: email})
+    //     .then(response => {
+    //         console.log(response);
             
-        }).catch(err => {
-            console.log(err);
-        });
-    });
+    //     }).catch(err => {
+    //         console.log(err);
+    //     });
+    // });
 
 
 }
