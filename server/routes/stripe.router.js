@@ -23,59 +23,27 @@ router.post('/charge', function (req, res) {
     });
 });
 
-// stripe.products.retrieve('prod_Cd1As14yEXc5yf', (err, product) => {
-//     if(err){
-//         console.log('ERROR on stripe.products.retrieve', err);
-        
-//     } else {
-//         console.log('SUCCESS on stripe.products.retrieve! Product:', product);
 
-//     }
-// })
-
-
-// stripe.plans.retrieve('plan_CdD9nqhlg5gy0w', (err, product) => {
-//     if (err) {
-//         console.log('ERROR on stripe.plans.retrieve', err);
-
-//     } else {
-//         console.log('SUCCESS on stripe.plans.retrieve! Product:', product);
-
-//     }
-// });
-
-
-router.get('/get_jenny', (req, res) => {
-    stripe.customers.retrieve('cus_CdF4mK0B8JtJtq', (err, customer) => {
-            if(err){
-                console.log('ERROR on stripe.customers.retrieve', err);
-                res.sendStatus(500);
-            } else {
-                res.send(customer);
-            }
-        }
-    )
-})
-
-router.get('/plan', (req, res) => {
-    stripe.plans.retrieve('plan_CdD9nqhlg5gy0w', (err, plan) => {
+router.get('/plans', (req, res) => {
+    stripe.plans.list( (err, plans) => {
         if(err){
             console.log(err);
             res.sendStatus(500)
         } else {
-            res.send(plan);
+            res.send(plans);
         }
     });
 });
 
-router.post('/subscribe_jenny', (req, res) => {
-    console.log('customer id -----------', req.body.jennyRosen.id);
-    console.log('plan id ---------------', req.body.plan.id);
+
+router.post('/subscribe_to_plan', (req, res) => {
+    console.log('customer id -----------', req.body.customerId);
+    console.log('plan id ---------------', req.body.planId);
     stripe.subscriptions.create({
-        customer: req.body.jennyRosen.id,
+        customer: req.body.customerId,
         items: [
             {
-                plan: req.body.plan.id,
+                plan: req.body.planId,
             }
         ]
     }, (err, subscription) => {
@@ -83,32 +51,10 @@ router.post('/subscribe_jenny', (req, res) => {
             console.log(err);
             res.sendStatus(500);
         } else {
-            res.send('SUBSCRIPTION ***********', subscription);
+            res.send(subscription);
         }
     })
 })
-
-
-
-router.post('/make_customer', (req, res) => {
-    let email = req.body.email;
-    // console.log('EMAIL +++ + + ++ ++', email);
-    stripe.customers.create(
-        {
-            email: email,
-        }, 
-        (err, customer) => {
-            if(err){
-                console.log(`ERROR on stripe.customers.create with email: ${email}`, err);
-                res.sendStatus(500)
-            } else {
-                res.send(customer)
-            }
-        });
-});
-
-
-
 
 
 

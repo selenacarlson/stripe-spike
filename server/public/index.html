@@ -11,9 +11,10 @@
     <script src="vendors/axios.js"></script>
     <!-- Custom JS -->
     <script src="scripts/client.js"></script>
+    <script src="scripts/stripe-scripts.js"></script>
     <title>Stripe Spike</title>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="StripeController as vm">
 
     <input type="text" id="customer-email">
     <button id="make-customer">Make Customer</button>
@@ -34,6 +35,16 @@
       <button>Submit Payment</button>
     </form>
 
+
+
+    <h1>Plans</h1>
+    <ul>
+      <li ng-repeat="plan in vm.plans.list"> {{plan.nickname}} <button ng-click="vm.subscribeToThisPlan(plan.id)">subscribe</button></li>
+    </ul>
+    <!-- <h1>Customers</h1>
+    <ul>
+      <li ng-repeat="customer in vm.customers.list"> {{customer.email}} &nbsp; {{customer.sources.data[0].card.exp_year}} &nbsp; {{customer.sources.data[0].card.last4}} </li>
+    </ul> -->
    
 </body>
 </html>
