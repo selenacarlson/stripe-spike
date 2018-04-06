@@ -4,32 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Stripe JS -->
-    <script src="vendors/stripe.js"></script>
-    <!-- Angular Payments -->
-    <script src="vendors/angular-payments.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <!-- Angular JS -->
-    <script src="angular.min.js"></script>
+    <script src="vendors/angular.min.js"></script>
     <!-- Custom JS -->
     <script src="scripts/client.js"></script>
     <title>Stripe Spike</title>
 </head>
-<body ng-app="stripeApp" ng-controller="StripeController as vm">
+<body>
 
-    <h1>Stripe</h1>
-    <form id="stripe-form">
-    <!-- <form action="/stripe" method="POST"> -->
-      <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="pk_test_am5RbEIakojCTGAR6pNGMvfO"
-        data-amount="999"
-        data-name="Stripe.com"
-        data-description="Example charge"
-        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        data-locale="auto"
-        data-zip-code="true">
-      </script>
+    <!-- STEP 2: CREATE YOUR PAYMENT FORM -->
+    <form action="/charge" method="post" id="payment-form">
+      <div class="form-row">
+        <label for="card-element">
+          Credit or debit card
+        </label>
+        <div id="card-element">
+          <!-- A Stripe Element will be inserted here. -->
+        </div>
+        <!-- Used to display Element errors. -->
+        <div id="card-errors" role="alert"></div>
+      </div>
+    
+      <button>Submit Payment</button>
     </form>
 
+   
 </body>
 </html>

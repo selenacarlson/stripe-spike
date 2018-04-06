@@ -23,12 +23,11 @@ app.listen(PORT, () => {
 });
 
 
-let token; // Using Express
+// let token; // Using Express
 
-app.post('/stripe', function(req, res){
-    token = req.body.stripeToken
+app.post('/charge', function(req, res){
+    let token = req.body.stripeToken;
     console.log('token', token);
-    
     console.log(req.body);
     stripe.charges.create({
         amount: 999,
@@ -44,7 +43,21 @@ app.post('/stripe', function(req, res){
             res.send(charge) 
         }
       });
-})
+});
+
+// create a service-type product
+const product = stripe.products.create({
+    name: 'Cogiv',
+    type: 'service',
+}, function(err, product){
+    
+});
+
+
+
+
+
+
 
 // // Charge the user's card:
 // stripe.charges.create({
