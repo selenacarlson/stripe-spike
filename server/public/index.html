@@ -4,22 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="client.js"></script>
+    <!-- Stripe JS -->
+    <script src="vendors/stripe.js"></script>
+    <!-- Angular Payments -->
+    <script src="vendors/angular-payments.min.js"></script>
+    <!-- Angular JS -->
+    <script src="angular.min.js"></script>
+    <!-- Custom JS -->
+    <script src="scripts/client.js"></script>
     <title>Stripe Spike</title>
 </head>
-<body>
+<body ng-app="stripeApp" ng-controller="StripeController as vm">
+
     <h1>Stripe</h1>
-    <form action="/stripe" method="POST">
-            <script
-              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-              data-key="pk_test_am5RbEIakojCTGAR6pNGMvfO"
-              data-amount="999"
-              data-name="Stripe.com"
-              data-description="Example charge"
-              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-              data-locale="auto"
-              data-zip-code="true">
-            </script>
-          </form>
+    <form id="stripe-form">
+    <!-- <form action="/stripe" method="POST"> -->
+      <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="pk_test_am5RbEIakojCTGAR6pNGMvfO"
+        data-amount="999"
+        data-name="Stripe.com"
+        data-description="Example charge"
+        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-locale="auto"
+        data-zip-code="true">
+      </script>
+    </form>
+
 </body>
 </html>

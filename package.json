@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/selenacarlson/stripe-spike#readme",
   "dependencies": {
+    "angular": "^1.6.9",
+    "angular-payments": "^1.0.7",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",

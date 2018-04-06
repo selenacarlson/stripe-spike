@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const axios = require("axios");
+// const axios = require("axios");
 const env = require('dotenv');
 env.config();
 
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-console.log('process.env.STRIPE_KEY', process.env.STRIPE_KEY);
+console.log('process.env.STRIPE_KEY', process.env.STRIPE_SECRET_KEY);
 
 
 app.use(bodyParser.json());
@@ -40,7 +40,8 @@ app.post('/stripe', function(req, res){
             console.log(err);
         }
         else {
-            console.log(charge);   
+            console.log(charge);  
+            res.send(charge) 
         }
       });
 })
