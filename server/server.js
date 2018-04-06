@@ -1,17 +1,19 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-// const axios = require("axios");
-const env = require('dotenv');
-env.config();
+const env = require('dotenv').config();
+// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-console.log('process.env.STRIPE_KEY', process.env.STRIPE_SECRET_KEY);
+// Router
+const stripeRouter = require('./routes/stripe.router');
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+// user Router
+app.use('/stripe', stripeRouter);
 
 app.use(express.static('server/public'));
 
@@ -23,35 +25,9 @@ app.listen(PORT, () => {
 });
 
 
-// let token; // Using Express
 
-app.post('/charge', function(req, res){
-    let token = req.body.stripeToken;
-    console.log('token', token);
-    console.log(req.body);
-    stripe.charges.create({
-        amount: 999,
-        currency: "usd",
-        description: "Example charge",
-        source: token,
-      }, function(err, charge) {
-        if (err){
-            console.log(err);
-        }
-        else {
-            console.log(charge);  
-            res.send(charge) 
-        }
-      });
-});
 
 // create a service-type product
-const product = stripe.products.create({
-    name: 'Cogiv',
-    type: 'service',
-}, function(err, product){
-    
-});
 
 
 
