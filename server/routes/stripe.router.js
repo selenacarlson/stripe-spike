@@ -34,22 +34,38 @@ router.post('/charge', function (req, res) {
 // })
 
 
-stripe.plans.retrieve('plan_CdD9nqhlg5gy0w', (err, product) => {
-    if (err) {
-        console.log('ERROR on stripe.plans.retrieve', err);
+// stripe.plans.retrieve('plan_CdD9nqhlg5gy0w', (err, product) => {
+//     if (err) {
+//         console.log('ERROR on stripe.plans.retrieve', err);
 
-    } else {
-        console.log('SUCCESS on stripe.plans.retrieve! Product:', product);
+//     } else {
+//         console.log('SUCCESS on stripe.plans.retrieve! Product:', product);
 
-    }
-})
-
-// const product = stripe.products.create({
-//     name: 'Cogiv',
-//     type: 'service',
-// }, function (err, product) {
-
+//     }
 // });
+
+
+router.post('/make_customer', (req, res) => {
+    let email = req.body.email;
+    // console.log('EMAIL +++ + + ++ ++', email);
+    stripe.customers.create(
+        {
+            email: email,
+        }, 
+        (err, customer) => {
+            if(err){
+                console.log(`ERROR on stripe.customers.create with email: ${email}`, err);
+                res.sendStatus(500)
+            } else {
+                res.send(customer)
+            }
+        });
+});
+
+
+
+
+
 
 // IN NEW BRANCH
 

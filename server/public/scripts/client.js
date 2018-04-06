@@ -1,3 +1,4 @@
+
 console.log('hi');
 
 window.onload = function() {
@@ -66,6 +67,18 @@ window.onload = function() {
         // submit the form
         form.submit();
     }
+
+    var makeCustomerBtn = document.getElementById('make-customer');
+    makeCustomerBtn.addEventListener('click', function(){
+        var email = document.getElementById('customer-email').value;
+        axios.post('/stripe/make_customer', {email: email})
+        .then(response => {
+            console.log(response);
+            
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 
 
 }
