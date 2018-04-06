@@ -23,14 +23,35 @@ router.post('/charge', function (req, res) {
     });
 });
 
+// stripe.products.retrieve('prod_Cd1As14yEXc5yf', (err, product) => {
+//     if(err){
+//         console.log('ERROR on stripe.products.retrieve', err);
+        
+//     } else {
+//         console.log('SUCCESS on stripe.products.retrieve! Product:', product);
 
-const product = stripe.products.create({
-    name: 'Cogiv',
-    type: 'service',
-}, function (err, product) {
+//     }
+// })
 
-});
 
+stripe.plans.retrieve('plan_CdD9nqhlg5gy0w', (err, product) => {
+    if (err) {
+        console.log('ERROR on stripe.plans.retrieve', err);
+
+    } else {
+        console.log('SUCCESS on stripe.plans.retrieve! Product:', product);
+
+    }
+})
+
+// const product = stripe.products.create({
+//     name: 'Cogiv',
+//     type: 'service',
+// }, function (err, product) {
+
+// });
+
+// IN NEW BRANCH
 
 
 module.exports = router;
