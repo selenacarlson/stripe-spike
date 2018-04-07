@@ -9,6 +9,7 @@ const pool = require('../modules/pool');
 // information to stripe. Then save some important bits from 
 // the response––a customer object––in our database
 router.post('/register', function (req, res) {
+    console.log('req.body ----- - -- ----- ', req.body);
     let source = req.body.stripeSource;
     let email = req.body.email;
     let name = req.body.name;
