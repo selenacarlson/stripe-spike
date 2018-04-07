@@ -7,7 +7,17 @@ window.onload = function() {
     // all pages of the app for security purposes
     // then, create an instance of stripes pre-built, secure, Elements
     var stripe = Stripe('pk_test_am5RbEIakojCTGAR6pNGMvfO');
-    var elements = stripe.elements();
+    var elements = stripe.elements({
+        fonts: [
+          {
+            cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+          },
+        ],
+        // Stripe's examples are localized to specific languages, but if
+        // you wish to have Elements automatically detect your user's locale,
+        // use `locale: 'auto'` instead.
+        locale: 'auto'
+      });
 
     // STEP 2: continued from payment form creation on HTML
     // custom styling can be passed to to options when creating an Element
@@ -20,40 +30,50 @@ window.onload = function() {
     };
 
     // create an instance of the card Element
-    var card = elements.create('card', { style: style });
-
-    // add the instance of the card Element to the #card-element div
-    card.mount('#card-element')
-
-    // add a "change" event listener to the card Element to help with 
-    // error handling and customer usibility
-    card.addEventListener('change', function(e){
-        var displayError = document.getElementById('card-errors');
-        if(e.error){
-            displayError.textContent = e.error.message
-        } else {
-            displayError.textContent = '';
-        }
-    });
-
-    var form = document.getElementById('payment-form');
-    var ownerInfo = {
-        owner: {
-            name: 'Jenny Rosen',
-            address: {
-            line1: 'Nollendorfstraße 27',
-            city: 'Berlin',
-            postal_code: '10777',
-            country: 'DE',
+    var card = elements.create('card', {
+        iconStyle: 'solid',
+        style: {
+          base: {
+            iconColor: '#c4f0ff',
+            color: '#fff',
+            fontWeight: 500,
+            fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+            fontSize: '16px',
+            fontSmoothing: 'antialiased',
+    
+            ':-webkit-autofill': {
+              color: '#fce883',
             },
-            email: 'jenny.rosen@example.com'
+            '::placeholder': {
+              color: '#87BBFD',
+            },
+          },
+          invalid: {
+            iconColor: '#FFC7EE',
+            color: '#FFC7EE',
+          },
         },
-    };
+    });
+    
+    card.mount('#example1-card');
+
+    var form = document.getElementById('register-form');
 
     form.addEventListener('submit', function(event) {
-    event.preventDefault();
+        var nameInput = document.getElementById('name')
+        var emailInput = document.getElementById('email')
+        
+        nameInput.setAttribute('name', 'name');
+        nameInput.setAttribute('value', nameInput.value);
+        
+        emailInput.setAttribute('name', 'email');
+        emailInput.setAttribute('value', emailInput.value);
+    
+        form.appendChild(nameInput);
+        form.appendChild(emailInput);
 
-        stripe.createSource(card, ownerInfo).then(function(result) {
+        event.preventDefault();
+        stripe.createSource(card).then(function(result) {
             if (result.error) {
             // Inform the user if there was an error
             var errorElement = document.getElementById('card-errors');
@@ -67,29 +87,30 @@ window.onload = function() {
 
     function stripeSourceHandler(source) {
         // Insert the source ID into the form so it gets submitted to the server
-        var form = document.getElementById('payment-form');
+        var form = document.getElementById('register-form');
         var hiddenInput = document.createElement('input');
         hiddenInput.setAttribute('type', 'hidden');
         hiddenInput.setAttribute('name', 'stripeSource');
         hiddenInput.setAttribute('value', source.id);
         form.appendChild(hiddenInput);
-      
+        
         // Submit the form
         form.submit();
       }
 
-    // var makeCustomerBtn = document.getElementById('make-customer');
-    // makeCustomerBtn.addEventListener('click', function(){
-    //     var email = document.getElementById('customer-email').value;
-    //     axios.post('/stripe/make_customer', {email: email})
-    //     .then(response => {
-    //         console.log(response);
-            
-    //     }).catch(err => {
-    //         console.log(err);
-    //     });
-    // });
-
+    var elements = stripe.elements({
+        fonts: [
+            {
+            cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+            },
+        ],
+        // Stripe's examples are localized to specific languages, but if
+        // you wish to have Elements automatically detect your user's locale,
+        // use `locale: 'auto'` instead.
+        locale: window.__exampleLocale
+    });
+    
+      
 
 }
 

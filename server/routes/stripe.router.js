@@ -3,16 +3,14 @@ const router = express();
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 
-router.post('/create', function (req, res) {
-    console.log(req.body);
+router.post('/register', function (req, res) {
+
     let source = req.body.stripeSource;
-    let email = 'test@test.com'
-    // console.log('token', stripeSource);
+    let email = req.body.email;
+    let name = req.body.name;
+
     stripe.customers.create(
-        {
-            email: email,
-            source: source,
-        }, 
+        {email: email, source: source}, 
         (err, customer) => {
             if(err){
                 console.log(`ERROR on stripe.customers.create with email: ${email}`, err);
