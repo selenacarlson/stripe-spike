@@ -1,9 +1,14 @@
-myApp.controller('StripeController', ['$http', function ($http) {
+myApp.controller('HomeController', ['$http', function ($http) {
     let self = this;
     // self.customers = {list: []};
     self.customer = {
         id: "cus_CdGZDwcnaytTAf"
     }
+
+
+    
+
+
 
     self.customers = {list: []};
 
@@ -13,7 +18,7 @@ myApp.controller('StripeController', ['$http', function ($http) {
         $http.get('/stripe/plans')
             .then(response => {
                 self.plans.list = response.data.data;
-                console.log(self.plans);
+                console.log('plans', self.plans.list);
             }).catch(err => {
                 console.log(err);
             });
@@ -36,6 +41,8 @@ myApp.controller('StripeController', ['$http', function ($http) {
         $http.get('/stripe/customers')
         .then(response => {
             self.customers.list = response.data.rows;
+            console.log('customers', self.customers.list);
+            
         }).catch(err => {
             console.log(err);
         });

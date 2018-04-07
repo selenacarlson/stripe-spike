@@ -9,70 +9,42 @@
     <script src="vendors/angular.min.js"></script>
     <script src="vendors/angular-route.min.js"></script>
     <!-- Custom JS -->
-    <script src="scripts/stripe-scripts.js"></script>
+    <!-- <script src="scripts/stripe-scripts.js"></script> -->
     <script src="scripts/client.js"></script>
-    <script src="scripts/stripe.controller.js"></script>
+    <script src="scripts/controllers/home.controller.js"></script>
+    <script src="scripts/controllers/subscribe.controller.js"></script>
+    <script src="scripts/controllers/stripe-form.controller.js"></script>
     <link rel="stylesheet" href="styles/style.css">
     <title>Stripe Spike</title>
 </head>
-<body ng-app="myApp" ng-controller="StripeController as vm">
+<body ng-app="myApp">
 
     <!-- <input type="text" id="customer-email">
     <button id="make-customer">Make Customer</button> -->
 
     <!-- STEP 2: CREATE YOUR PAYMENT FORM -->
-    <form action="/stripe/charge" method="post" id="payment-form">
+    <!-- <form action="/stripe/charge" method="post" id="payment-form">
       <div class="form-row">
         <label for="card-element">
           Credit or debit card
         </label>
-        <div id="card-element">
+        <div id="card-element"> -->
           <!-- A Stripe Element will be inserted here. -->
-        </div>
+        <!-- </div> -->
         <!-- Used to display Element errors. -->
-        <div id="card-errors" role="alert"></div>
+        <!-- <div id="card-errors" role="alert"></div>
       </div>
     
       <button>Submit Payment</button>
-    </form>
+    </form> -->
 
-    <!-- STRIPE REGISTER -->
-      <div class="cell example example1">
-        <form action="/stripe/register" method="post" id="register-form">
-          <!-- <form id="register-form" ng-submit="vm.registerUser()"> -->
-          <fieldset>
-            <div class="row">
-              <label for="name" data-tid="elements_examples.form.name_label">Name</label>
-              <input id="name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="">
-            </div>
-            <div class="row">
-              <label for="email">Email</label>
-              <input id="email" type="email" placeholder="janedoe@gmail.com" required="">
-            </div>
-          </fieldset>
-          <fieldset>
-            <div class="row">
-              <div id="example1-card"></div>
-            </div>
-          </fieldset>
-          <button type="submit" data-tid="elements_examples.form.pay_button">Register</button>
-        </form>
-      </div>
-      <!-- END STRIPE REGISTER -->
+    <nav>
+      <a href="/#!home">home</a>
+      <a href="/#!subscribe">subscribe</a>
+    </nav>
 
+    <main ng-view></main>
 
-
-
-
-
-    <h1>Plans</h1>
-    <ul>
-      <li ng-repeat="plan in vm.plans.list"> {{plan.nickname}} <button ng-click="vm.subscribeToThisPlan(plan.id)">subscribe</button></li>
-    </ul>
-    <!-- <h1>Customers</h1>
-    <ul>
-      <li ng-repeat="customer in vm.customers.list"> {{customer.email}} &nbsp; {{customer.sources.data[0].card.exp_year}} &nbsp; {{customer.sources.data[0].card.last4}} </li>
-    </ul> -->
    
 </body>
 </html>

@@ -20,9 +20,9 @@ router.post('/register', function (req, res) {
                 res.sendStatus(500)
             } else {
                 console.log('customer ++++ + ++ ++', customer);
-                const sqlText = `INSERT INTO users (email, created, customer_id)
-                VALUES ($1, $2, $3);`;
-                pool.query(sqlText, [customer.email, new Date(customer.created * 1000), customer.id])
+                const sqlText = `INSERT INTO users (name, email, created, customer_id)
+                VALUES ($1, $2, $3, $4);`;
+                pool.query(sqlText, [name, customer.email, new Date(customer.created * 1000), customer.id])
                 .then(response => {
                     res.sendStatus(201);
                 }).catch(err => {
