@@ -1,6 +1,41 @@
 const express = require('express');
 const router = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const pool = require('../modules/pool');
+
+
+
+// Send new customer email and source (encripted card token) 
+// information to stripe. Then save some important bits from 
+// the response––a customer object––in our database
+router.post('/register', function (req, res) {
+    let source = req.body.stripeSource;
+    let email = req.body.email;
+    let name = req.body.name;
+    stripe.customers.create(
+        { email: email, source: source },
+        (err, customer) => {
+            if (err) {
+                console.log(`ERROR on stripe.customers.create with email: ${email}`, err);
+                res.sendStatus(500)
+            } else {
+                console.log('customer ++++ + ++ ++', customer);
+                const sqlText = `INSERT INTO users (email, created, customer_id)
+                VALUES ($1, $2, $3);`;
+                pool.query(sqlText, [customer.email, new Date(customer.created * 1000), customer.id])
+                .then(response => {
+                    res.sendStatus(201);
+                }).catch(err => {
+                    console.log('ERROR on INSERT INTO users', err);
+                    
+                    res.sendStatus(500);
+                })
+                // res.send(customer)
+            }
+        });
+});
+
+
 
 
 router.post('/charge', function (req, res) {
@@ -32,6 +67,16 @@ router.get('/plans', (req, res) => {
         } else {
             res.send(plans);
         }
+    });
+});
+
+router.get('/customers', (req, res) => {
+    const sqlText = `SELECT * FROM users;`;
+    pool.query(sqlText, [])
+    .then(response => {
+        res.send(response);
+    }).catch(err => {
+        res.sendStatus(500);
     });
 });
 
