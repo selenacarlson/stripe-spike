@@ -37,38 +37,23 @@ router.post('/register', function (req, res) {
 });
 
 
-
-
-router.post('/create', function (req, res) {
-    console.log(req.body);
-    stripe.charges.create({
-        amount: 999,
-        currency: "usd",
-        description: "Example charge",
-        source: token,
-    }, function (err, charge) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(charge);
-            res.send(charge)
-        }
-    });
-});
-
-
-router.get('/plans', (req, res) => {
-    stripe.plans.list( (err, plans) => {
+// get a list of our 'products' (charities) from stripe
+router.get('/products', (req, res) => {
+    stripe.products.list( (err, products) => {
         if(err){
             console.log(err);
             res.sendStatus(500)
         } else {
-            res.send(plans);
+            res.send(products);
         }
     });
 });
 
+router.get('')
+
+
+
+// Get a list of customers from OUR db
 router.get('/customers', (req, res) => {
     const sqlText = `SELECT * FROM users;`;
     pool.query(sqlText, [])
@@ -80,6 +65,8 @@ router.get('/customers', (req, res) => {
 });
 
 
+
+// Create subscription
 router.post('/subscribe_to_plan', (req, res) => {
     console.log('customer id -----------', req.body.customerId);
     console.log('plan id ---------------', req.body.planId);
@@ -99,6 +86,26 @@ router.post('/subscribe_to_plan', (req, res) => {
         }
     })
 })
+
+
+// Create charge
+router.post('/create', function (req, res) {
+    console.log(req.body);
+    stripe.charges.create({
+        amount: 999,
+        currency: "usd",
+        description: "Example charge",
+        source: token,
+    }, function (err, charge) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(charge);
+            res.send(charge)
+        }
+    });
+});
 
 
 
