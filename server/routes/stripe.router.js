@@ -38,8 +38,8 @@ router.post('/register', function (req, res) {
 
 
 // get a list of our 'products' (charities) from OUR SQL db
-router.get('/products', (req, res) => {
-    const sqlText = `SELECT * FROM products`;
+router.get('/nonprofits', (req, res) => {
+    const sqlText = `SELECT * FROM nonprofits`;
     pool.query(sqlText)
     .then(response => {
         res.send(response.rows);

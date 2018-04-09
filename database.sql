@@ -18,6 +18,6 @@ CREATE TABLE nonprofits
     plan_id_five character varying,
     plan_id_ten character varying,
     plan_id_twenty character varying,
-    created Date
+    created Date default now()
 );
 

@@ -11,8 +11,8 @@ myApp.controller('SubscribeController', ['$http', function($http){
     
     // Get a a list of 'products' (charities).
     // Each product should have a list of 'plans'
-    self.getProducts = function () {
-        $http.get('/stripe/products')
+    self.getNonprofits = function () {
+        $http.get('/stripe/nonprofits')
             .then(response => {
                 self.charities.list = response.data;
                 console.log(self.charities.list);
@@ -34,6 +34,6 @@ myApp.controller('SubscribeController', ['$http', function($http){
 
     }
 
-    self.getProducts();
+    self.getNonprofits();
 
 }]); 
