@@ -130,3 +130,9 @@
   .example.example1 .success .reset path {
     fill: #fff;
   }
+
+  .nonprofitForm {
+    padding: 30px;
+    width: 400px;
+    background-color: #9cdbff
+  }

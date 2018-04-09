@@ -8,12 +8,20 @@
     <!-- Angular JS -->
     <script src="vendors/angular.min.js"></script>
     <script src="vendors/angular-route.min.js"></script>
+    <!-- Angular Material -->
+    <link href="vendors/angular-material.css" rel="stylesheet" type="text/css">
+    <script src="vendors/angular-animate.min.js" charset="utf-8"></script>
+    <script src="vendors/angular-aria.min.js" charset="utf-8"></script>
+    <!-- <script src="vendors/angular-messages.min.js" charset="utf-8"></script> -->
+    <script src="vendors/angular-material.min.js" charset="utf-8"></script>
+    
     <!-- Custom JS -->
     <!-- <script src="scripts/stripe-scripts.js"></script> -->
     <script src="scripts/client.js"></script>
     <script src="scripts/controllers/home.controller.js"></script>
     <script src="scripts/controllers/subscribe.controller.js"></script>
     <script src="scripts/controllers/stripe-form.controller.js"></script>
+    <script src="scripts/controllers/admin.controller.js"></script>
     <link rel="stylesheet" href="styles/style.css">
     <title>Stripe Spike</title>
 </head>
@@ -41,6 +49,7 @@
     <nav>
       <a href="/#!home">home</a>
       <a href="/#!subscribe">subscribe</a>
+      <a href="/#!admin">admin</a>
     </nav>
 
     <main ng-view></main>

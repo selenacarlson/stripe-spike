@@ -100,6 +100,68 @@ router.post('/subscribe_to_plan', (req, res) => {
     })
 })
 
+let nonprofit = {};
+
+router.post('/nonprofit', (req, res) => {
+    nonprofit = req.body
+    stripe.products.create({
+        name: nonprofit.name,
+        type: 'service',
+    }, (err, product) => {
+        if(err){
+            console.log(err);
+            res.sendStatus(500);  
+        } else {
+            nonprofit.product_id = product.id
+            createPlans(nonprofit.product_id);
+        } 
+    });
+})
+
+function createPlans(id){
+    stripe.plans.create({
+        product: id,
+        currency: 'usd',
+        interval: 'month',
+        nickname: '$5/month',
+        amount: 500,
+    }, (err, plan) => {
+        if(err){
+            console.log(err); 
+        } else {
+            nonprofit.five_plan_id = plan.id
+        } 
+    });
+
+    stripe.plans.create({
+        product: id,
+        currency: 'usd',
+        interval: 'month',
+        nickname: '$10/month',
+        amount: 1000,
+    }, (err, plan) => {
+        if(err){
+            console.log(err);
+        } else {
+            nonprofit.ten_plan_id = plan.id
+        } 
+    });
+
+    stripe.plans.create({
+        product: id,
+        currency: 'usd',
+        interval: 'month',
+        nickname: '$20/month',
+        amount: 2000,
+    }, (err, plan) => {
+        if(err){
+            console.log(err); 
+        } else {
+            nonprofit.twenty_plan_id = plan.id
+        } 
+    });
+} //end createPlans
+
 
 
 // IN NEW BRANCH
