@@ -96,12 +96,13 @@ router.post('/nonprofit', (req, res) => {
             res.sendStatus(500);  
         } else {
             nonprofit.product_id = product.id
-            createPlans(nonprofit.product_id);
+            createFiveDollarPlan(nonprofit.product_id);
+            res.sendStatus(200);
         } 
     });
 })
 
-function createPlans(id){
+function createFiveDollarPlan(id){
     stripe.plans.create({
         product: id,
         currency: 'usd',
@@ -112,10 +113,13 @@ function createPlans(id){
         if(err){
             console.log(err); 
         } else {
-            nonprofit.five_plan_id = plan.id
+            nonprofit.plan_id_five = plan.id
+            createTenDollarPlan(id);
         } 
     });
+} //end createPlans
 
+function createTenDollarPlan(id){
     stripe.plans.create({
         product: id,
         currency: 'usd',
@@ -126,10 +130,13 @@ function createPlans(id){
         if(err){
             console.log(err);
         } else {
-            nonprofit.ten_plan_id = plan.id
+            nonprofit.plan_id_ten = plan.id
+            createTwentyDollarPlan(id)
         } 
     });
+}
 
+function createTwentyDollarPlan(id){
     stripe.plans.create({
         product: id,
         currency: 'usd',
@@ -140,32 +147,23 @@ function createPlans(id){
         if(err){
             console.log(err); 
         } else {
-            nonprofit.twenty_plan_id = plan.id
+            nonprofit.plan_id_twenty = plan.id
+            postNonprofit(nonprofit);
         } 
     });
-} //end createPlans
+}
 
-
-// Create charge
-router.post('/create', function (req, res) {
-    console.log(req.body);
-    stripe.charges.create({
-        amount: 999,
-        currency: "usd",
-        description: "Example charge",
-        source: token,
-    }, function (err, charge) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(charge);
-            res.send(charge)
-        }
-    });
-});
-
-
+function postNonprofit(nonprofit){
+    console.log(nonprofit);
+    const sqlText = `INSERT INTO nonprofits (name, city, state, description, product_id, plan_id_five, plan_id_ten, plan_id_twenty, created)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
+    pool.query(sqlText, [nonprofit.name, nonprofit.city, nonprofit.state, nonprofit.description, nonprofit.product_id, nonprofit.plan_id_five, nonprofit.plan_id_ten, nonprofit.plan_id_twenty, new Date()])
+    .then(response => {
+        console.log(response);
+    }).catch(err => {
+        console.log('ERROR on INSERT INTO users', err);
+    })        
+}
 
 // IN NEW BRANCH
 
