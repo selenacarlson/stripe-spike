@@ -1,4 +1,4 @@
-const myApp = angular.module('myApp', ['ngRoute']);
+const myApp = angular.module('myApp', ['ngRoute', 'ngMaterial']);
 myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
     $routeProvider
     .when('/', {
@@ -15,6 +15,10 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
     .when('/subscribe', {
         templateUrl: 'views/subscribe.html',
         controller: 'SubscribeController as vm'
+    })
+    .when('/admin', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController as vm'
     })
     .otherwise({
         template: '<h1>404</h1>'

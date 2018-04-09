@@ -1,0 +1,22 @@
+<br>
+<div class="nonprofitForm">
+    <md-input-container class="md-block title">
+        <input ng-model="vm.newNonprofit.name" placeholder="Name">
+    </md-input-container>
+    <div layout="row">
+        <md-input-container class="md-block title" flex="50">
+            <input ng-model="vm.newNonprofit.city" placeholder="City">
+        </md-input-container>
+        <md-input-container flex="50">
+            <label>State</label>
+            <md-select name="type" ng-model="vm.newNonprofit.state">
+                <md-option value="mn">MN</md-option>
+                <md-option value="wi">WI</md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <md-input-container class="md-block title">
+        <input ng-model="vm.newNonprofit.description" placeholder="Description">
+    </md-input-container>
+    <md-button ng-click="vm.addNonprofit(vm.newNonprofit)" class="md-raised md-primary">SAVE</md-button>
+</div>
