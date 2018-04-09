@@ -39,9 +39,7 @@ router.post('/register', function (req, res) {
 
 
 
-router.post('/charge', function (req, res) {
-    let token = req.body.stripeToken;
-    console.log('token', token);
+router.post('/create', function (req, res) {
     console.log(req.body);
     stripe.charges.create({
         amount: 999,
