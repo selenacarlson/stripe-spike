@@ -1,15 +1,21 @@
 myApp.controller('SubscribeController', ['$http', function($http){
     const self = this;
-    self.products = {list: []};
+    self.charities = {list: []};
+
+    // Hard coded for stripe spike. dynamically filled with info from DB 
+    // upon successful login with facebook
+    self.user = {
+        // hard coded customer ID,
+        customerId: "cus_CeJqFtnnFjy6vd",
+    };
     
     // Get a a list of 'products' (charities).
     // Each product should have a list of 'plans'
     self.getProducts = function () {
         $http.get('/stripe/products')
             .then(response => {
-                console.log(response.data.data);
-                // self.products.list = response.data.data;
-                // console.log('plans', self.products.list);
+                self.charities.list = response.data;
+                console.log(self.charities.list);
             }).catch(err => {
                 console.log(err);
             });
@@ -17,8 +23,8 @@ myApp.controller('SubscribeController', ['$http', function($http){
 
     self.subscribeToThisPlan = function (planId) {
         console.log(planId);
-        console.log(self.customer.id);
-        let data = { planId: planId, customerId: self.customer.id };
+        console.log(self.user.customerId);
+        let data = { planId: planId, customerId: self.user.customerId };
         $http.post('/stripe/subscribe_to_plan', data)
             .then(response => {
                 console.log(response);

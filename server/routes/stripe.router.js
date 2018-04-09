@@ -37,20 +37,16 @@ router.post('/register', function (req, res) {
 });
 
 
-// get a list of our 'products' (charities) from stripe
+// get a list of our 'products' (charities) from OUR SQL db
 router.get('/products', (req, res) => {
-    stripe.products.list( (err, products) => {
-        if(err){
-            console.log(err);
-            res.sendStatus(500)
-        } else {
-            res.send(products);
-        }
+    const sqlText = `SELECT * FROM products`;
+    pool.query(sqlText)
+    .then(response => {
+        res.send(response.rows);
+    }).catch(err => {
+        console.log(err);        
     });
 });
-
-router.get('')
-
 
 
 // Get a list of customers from OUR db
