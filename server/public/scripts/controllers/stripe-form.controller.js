@@ -60,20 +60,14 @@ myApp.controller('StripeFormController', ['$scope', '$window', '$http', function
     var form = document.getElementById('register-form');
 
     form.addEventListener('submit', function (event) {
-        console.log(event);
-        
         var nameInput = document.getElementById('name')
         var emailInput = document.getElementById('email')
-
         nameInput.setAttribute('name', 'name');
         nameInput.setAttribute('value', nameInput.value);
-
         emailInput.setAttribute('name', 'email');
         emailInput.setAttribute('value', emailInput.value);
-
         form.appendChild(nameInput);
         form.appendChild(emailInput);
-
         event.preventDefault();
         stripe.createSource(card).then(function (result) {
             if (result.error) {
@@ -82,6 +76,7 @@ myApp.controller('StripeFormController', ['$scope', '$window', '$http', function
                 errorElement.textContent = result.error.message;
             } else {
                 // Send the source to your server
+                card.clear()
                 stripeSourceHandler(result.source);
             }
         });
@@ -103,9 +98,6 @@ myApp.controller('StripeFormController', ['$scope', '$window', '$http', function
         $http.post('/stripe/register', newCustomerData)
         .then(response => {
             console.log(response);
-            // form.elements[5].value = 'HI HI HI'
-            console.log(form);
-            document.getElementById('example1-card').value = '';
         }).catch(err => {
             console.log(err);  
         });
