@@ -1,0 +1,12 @@
+ 
+<h1>Hello {{vm.user.name}} </h1>
+
+{{vm.userService.stripeCustomerInfo.email}}
+
+
+<h2>Cards</h2>
+<ul>
+    <li ng-repeat="source in vm.userService.stripeCustomerInfo.sources.data"> 
+        #### #### #### {{source.card.last4}} 
+    </li>
+</ul>

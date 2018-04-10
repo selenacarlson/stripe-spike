@@ -7,6 +7,7 @@ const env = require('dotenv').config();
 
 // Router
 const stripeRouter = require('./routes/stripe.router');
+const databaseRouter = require('./routes/database.router');
 
 
 app.use(bodyParser.json());
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // user Router
 app.use('/stripe', stripeRouter);
+app.use('/database', databaseRouter);
 
 app.use(express.static('server/public'));
 

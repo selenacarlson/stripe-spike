@@ -37,30 +37,6 @@ router.post('/register', function (req, res) {
 });
 
 
-// get a list of our 'products' (charities) from OUR SQL db
-router.get('/nonprofits', (req, res) => {
-    const sqlText = `SELECT * FROM nonprofits`;
-    pool.query(sqlText)
-    .then(response => {
-        res.send(response.rows);
-    }).catch(err => {
-        console.log(err);        
-    });
-});
-
-
-// Get a list of customers from OUR db
-router.get('/customers', (req, res) => {
-    const sqlText = `SELECT * FROM users;`;
-    pool.query(sqlText, [])
-    .then(response => {
-        res.send(response);
-    }).catch(err => {
-        res.sendStatus(500);
-    });
-});
-
-
 
 // Create subscription
 router.post('/subscribe_to_plan', (req, res) => {
@@ -165,7 +141,16 @@ function postNonprofit(nonprofit){
     })        
 }
 
-// IN NEW BRANCH
-
+router.get('/customer/:customerId', (req, res) => {
+    const customerId = req.params.customerId;
+    stripe.customers.retrieve(customerId, (err, customer) => {
+        if(err){
+            console.log('ERROR on getting customer ' + customerId + ' from stripe ----- ', err);
+            res.sendStatus(500);
+        } else {
+            res.send(customer)
+        }
+    });
+});
 
 module.exports = router;
