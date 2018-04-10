@@ -18,7 +18,7 @@ myApp.controller('SubscribeController', ['$http', 'UserService', function($http,
             });
     }
 
-    self.subscribeToThisPlan = function (planId) {
+    self.subscribeToThisPlan = function (charity, planId) {
         console.log(planId);
         // console.log(UserService.user.customerId);
         let data = { planId: planId, customerId: UserService.user.customer_id };

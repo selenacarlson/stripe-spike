@@ -1,12 +1,44 @@
  
-<h1>Hello {{vm.user.name}} </h1>
-
-{{vm.userService.stripeCustomerInfo.email}}
 
 
-<h2>Cards</h2>
-<ul>
-    <li ng-repeat="source in vm.userService.stripeCustomerInfo.sources.data"> 
-        #### #### #### {{source.card.last4}} 
-    </li>
-</ul>
+
+
+<md-content>
+    <md-card>
+        <md-card-content>
+            <h1>Hello {{vm.user.name}} </h1>
+        </md-card-content>
+        <md-card-content>
+            This is your customer information
+
+            <h4>email</h4>
+            <div>
+                 {{vm.userService.stripeCustomerInfo.email}}
+            </div>
+          
+            <h4>cards</h4>
+            <ul>
+                <li ng-repeat="source in vm.userService.stripeCustomerInfo.sources.data">
+                    #### #### #### {{source.card.last4}}
+                </li>
+            </ul>
+           
+
+            <h4>subscriptions</h4>
+            <ul>
+                <li ng-repeat="subscription in vm.userService.stripeCustomerInfo.subscriptions.data">
+                    Charity : Store the charity name in our database 
+                    <br>
+                    Plan {{subscription.plan.amount / 100 | currency}} per {{subscription.plan.interval}}
+                    <br>
+                    Start Date: {{ subscription.start * 1000 | date}}
+                </li>
+            </ul>
+           
+    
+        </md-card-content>
+       
+
+    </md-card>
+</md-content>
+

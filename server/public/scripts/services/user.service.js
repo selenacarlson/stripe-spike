@@ -17,8 +17,29 @@ myApp.service('UserService', ['$http', function($http){
         });
     }
 
+    self.getTransactions = function () {
+        $http.get('/stripe/all-transactions')
+        .then(response => {
+            console.log(response);
+            
+        }).catch(err => {
+            console.log(err);            
+        });
+    }
+
+    self.getChargeById = function () {
+        $http.get('/stripe/that-charge')
+            .then(response => {
+                console.log(response);
+
+            }).catch(err => {
+                console.log(err);
+            });
+    }
+
 
     // Init
     self.getStripeCustomerInfo();
-
+    self.getTransactions();
+    self.getChargeById();
 }]);

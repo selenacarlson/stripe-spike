@@ -3,6 +3,30 @@ const router = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const pool = require('../modules/pool');
 
+router.get('/all-transactions', (req, res) => {
+    stripe.balance.listTransactions( (err, transactions) => {
+        if(err){
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.send(transactions)
+        }
+    })
+})
+
+router.get('/that-charge', (req, res) => {
+    const thatCharge = 'ch_1CDl88FewByiHSs3cyMAUBxP';
+    stripe.charges.retrieve(thatCharge, (err, charge) => {
+        if(err){
+            console.log(err);
+            res.sendStatus(500)
+        } else {
+            res.send(charge)
+        }
+    });
+});
+
+
 
 
 // Send new customer email and source (encripted card token) 

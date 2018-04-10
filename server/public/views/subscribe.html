@@ -5,10 +5,9 @@
 
     <div ng-repeat="charity in vm.charities.list">
         <h2> {{charity.name}} </h2>
-        <p> {{charity.plan_id_five}} </p>
-        <p>Give $5 per month <button ng-click="vm.subscribeToThisPlan(charity.plan_id_five)">Subscribe</button> </p>
-        <p>Give $10 per month <button ng-click="vm.subscribeToThisPlan(charity.plan_id_ten)">Subscribe</button> </p>
-        <p>Give $20 per month <button ng-click="vm.subscribeToThisPlan(charity.plan_id_twenty)">Subscribe</button> </p>
+        <p>Give $5 per month <button ng-click="vm.subscribeToThisPlan(charity, charity.plan_id_five)">Subscribe</button> </p>
+        <p>Give $10 per month <button ng-click="vm.subscribeToThisPlan(charity, charity.plan_id_ten)">Subscribe</button> </p>
+        <p>Give $20 per month <button ng-click="vm.subscribeToThisPlan(charity, charity.plan_id_twenty)">Subscribe</button> </p>
     </div>
 
 <h1>Make a one time donation</h1>
