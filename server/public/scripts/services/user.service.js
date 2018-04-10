@@ -57,4 +57,5 @@ myApp.service('UserService', ['$http', function($http){
     self.getTransactions();
     self.getChargeById();
     // self.getCardById();
+    
 }]);

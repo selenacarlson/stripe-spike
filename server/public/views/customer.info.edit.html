@@ -8,26 +8,26 @@
             This is your customer information
 
             <h4>email</h4>
-            <div ng-hide="editingEmail == true">
+            <div ng-hide="vm.editingEmail == true">
                  {{vm.userService.stripeCustomerInfo.email}}
-                 <md-button ng-click="editingEmail = true" class="md-primary md-raised">Edit</md-button>
+                 <md-button ng-click="vm.editingEmail = true" class="md-primary md-raised">Edit</md-button>
             </div>
-            <div ng-show="editingEmail == true">
+            <div ng-show="vm.editingEmail == true">
                 <input type="text" ng-value="vm.userService.stripeCustomerInfo.email" ng-model="vm.updatedEmail">
-                <md-button ng-click="editingEmail = false; updateEmail(vm.updatedEmail)" class="md-raised">Cancel</md-button>
+                <md-button ng-click="vm.editingEmail = false; updateEmail(vm.updatedEmail)" class="md-raised">Cancel</md-button>
                 <md-button ng-click="vm.updateEmail(vm.userService.stripeCustomerInfo.id)" class="md-primary md-raised">Save Changes</md-button>
             </div>
           
             <h4>cards</h4>
-            <div ng-hide="editingCard == true">
+            <div ng-hide="vm.editingCard == true">
                 <ul>
                     <li ng-repeat="source in vm.userService.stripeCustomerInfo.sources.data">
                         #### #### #### {{source.card.last4}}
                     </li>
                 </ul>
-                <md-button ng-click="editingCard = true" class="md-primary md-raised">Edit</md-button>
+                <md-button ng-click="vm.editingCard = true" class="md-primary md-raised">Edit</md-button>
             </div>
-            <div ng-show="editingCard == true">
+            <div ng-show="vm.editingCard == true">
                     <div class="cell example example1">
                             <form id="register-form">
                                 <fieldset>
@@ -37,7 +37,7 @@
                                 </fieldset>
                             </form>
                         </div>
-                <md-button ng-click="editingCard = false" class="md-raised">Cancel</md-button>
+                <md-button ng-click="vm.editingCard = false" class="md-raised">Cancel</md-button>
                 <md-button ng-click="vm.updateCard(vm.userService.stripeCustomerInfo.id)" class="md-primary md-raised">Save Changes</md-button>
             </div>
            

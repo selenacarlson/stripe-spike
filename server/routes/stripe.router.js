@@ -195,8 +195,6 @@ router.get('/customer/:customerId', (req, res) => {
 
 
 router.post('/oneTimeDonate', (req, res) => {
-    console.log(req.body);
-    
     let donation = req.body;
     stripe.charges.create({
         amount: Number(donation.amount) * 100,
@@ -215,7 +213,6 @@ router.post('/oneTimeDonate', (req, res) => {
 
 router.post('/updateCard', (req, res) => {
     let customer = req.body;
-    
     stripe.customers.update(customer.id, {
         source: customer.source,
       }, (err, source) => {
@@ -231,8 +228,6 @@ router.post('/updateCard', (req, res) => {
 
 router.post('/updateEmail', (req, res) => {
     let customer = req.body;
-    console.log(req.body);
-    
     stripe.customers.update(customer.id, {
         email: customer.email,
       }, (err, customer) => {

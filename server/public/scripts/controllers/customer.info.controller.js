@@ -57,7 +57,9 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
 
     card.mount('#example1-card');
 
-    console.log(self.user.customer_id);
+    
+    self.editingEmail = false;
+    self.editingCard = false;
 
     self.updateCard = function(customer_id){
         let customer = { id: customer_id }
@@ -72,6 +74,8 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
                     data: customer
                 }).then(response => {
                     console.log(response);
+                    self.getStripeCustomerInfo();
+                    self.editingCard = false;
                     card.clear();
                 }).catch(err => {
                     console.log(err);
@@ -81,7 +85,6 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
     }
 
     self.updatedEmail;
-
     self.updateEmail = function(customer_id){
         let customer = { id: customer_id, email: self.updatedEmail }
         console.log(customer);
@@ -91,6 +94,8 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
             data: customer
         }).then(response => {
             console.log(response);
+            self.getStripeCustomerInfo();
+            self.editingEmail = false;
         }).catch(err => {
             console.log(err);
         })
