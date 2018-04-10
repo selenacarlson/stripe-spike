@@ -165,6 +165,24 @@ function postNonprofit(nonprofit){
     })        
 }
 
+router.post('/oneTimeDonate', (req, res) => {
+    console.log(req.body);
+    
+    let donation = req.body;
+    stripe.charges.create({
+        amount: Number(donation.amount) * 100,
+        currency: 'usd',
+        customer: donation.customer,
+        metadata: {product_id: donation.product}
+    }, (err, plan) => {
+        if(err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        } 
+    });
+})
 // IN NEW BRANCH
 
 

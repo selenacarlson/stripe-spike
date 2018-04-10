@@ -131,8 +131,9 @@
     fill: #fff;
   }
 
-  .nonprofitForm {
+  .form {
     padding: 30px;
     width: 400px;
-    background-color: #9cdbff
+    background-color: lightgray;
+    margin: 10px;
   }
