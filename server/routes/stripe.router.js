@@ -218,7 +218,24 @@ router.post('/updateCard', (req, res) => {
     
     stripe.customers.update(customer.id, {
         source: customer.source,
-      }, (err, plan) => {
+      }, (err, source) => {
+        if(err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        } 
+    });
+
+});
+
+router.post('/updateEmail', (req, res) => {
+    let customer = req.body;
+    console.log(req.body);
+    
+    stripe.customers.update(customer.id, {
+        email: customer.email,
+      }, (err, customer) => {
         if(err){
             res.sendStatus(500);
             console.log(err);

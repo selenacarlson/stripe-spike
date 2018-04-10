@@ -72,11 +72,28 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
                     data: customer
                 }).then(response => {
                     console.log(response);
+                    card.clear();
                 }).catch(err => {
                     console.log(err);
                 })
             }
         });
+    }
+
+    self.updatedEmail;
+
+    self.updateEmail = function(customer_id){
+        let customer = { id: customer_id, email: self.updatedEmail }
+        console.log(customer);
+        $http({
+            method: 'POST',
+            url: '/stripe/updateEmail',
+            data: customer
+        }).then(response => {
+            console.log(response);
+        }).catch(err => {
+            console.log(err);
+        })
     }
 
 }]);
