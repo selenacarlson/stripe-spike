@@ -16,6 +16,10 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
         templateUrl: 'views/customer.info.html',
         controller: 'CustomerInfoController as vm'
     })
+    .when('/customer-info-edit', {
+        templateUrl: 'views/customer.info.edit.html',
+        controller: 'CustomerInfoController as vm'
+    })
     .when('/subscribe', {
         templateUrl: 'views/subscribe.html',
         controller: 'SubscribeController as vm'

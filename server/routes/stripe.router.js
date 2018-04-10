@@ -212,6 +212,22 @@ router.post('/oneTimeDonate', (req, res) => {
         } 
     });
 })
+
+router.post('/updateCard', (req, res) => {
+    let customer = req.body;
+    
+    stripe.customers.update(customer.id, {
+        source: customer.source,
+      }, (err, plan) => {
+        if(err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        } 
+    });
+
+});
 // IN NEW BRANCH
 
 
