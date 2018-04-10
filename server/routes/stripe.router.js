@@ -238,8 +238,15 @@ router.post('/updateEmail', (req, res) => {
             res.sendStatus(200);
         } 
     });
-
 });
+
+router.post('/unsubscribe', (req, res) => {
+    let subscription_id = req.body.id;
+    stripe.subscriptions.del(subscription_id);
+    res.sendStatus(200);
+});
+
+
 // IN NEW BRANCH
 
 

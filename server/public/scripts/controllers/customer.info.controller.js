@@ -57,7 +57,6 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
 
     card.mount('#example1-card');
 
-    
     self.editingEmail = false;
     self.editingCard = false;
 
@@ -87,7 +86,6 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
     self.updatedEmail;
     self.updateEmail = function(customer_id){
         let customer = { id: customer_id, email: self.updatedEmail }
-        console.log(customer);
         $http({
             method: 'POST',
             url: '/stripe/updateEmail',
@@ -96,6 +94,19 @@ myApp.controller('CustomerInfoController', ['$http', 'UserService', function($ht
             console.log(response);
             self.getStripeCustomerInfo();
             self.editingEmail = false;
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    self.unsubscribe = function(id){
+        $http({
+            method: 'POST',
+            url: '/stripe/unsubscribe',
+            data: {id: id}
+        }).then(response => {
+            console.log(response);
+            self.getStripeCustomerInfo();
         }).catch(err => {
             console.log(err);
         })
