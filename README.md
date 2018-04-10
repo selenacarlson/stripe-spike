@@ -8,8 +8,8 @@ A user needs to:
 
 [x] create a stripe ID 
     - with at least one associated payment source (card)
-[] view own card/customer information
-[] view own subsciptions
+[x] view own card/customer information
+[x] view own subsciptions
 [] delete that stripe ID (get out of stripes system)
 [] edit card information
 [] delete card information

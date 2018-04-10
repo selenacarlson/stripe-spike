@@ -3,6 +3,7 @@ const router = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const pool = require('../modules/pool');
 
+// Get all transactions on Whyatt's account
 router.get('/all-transactions', (req, res) => {
     stripe.balance.listTransactions( (err, transactions) => {
         if(err){
@@ -14,6 +15,7 @@ router.get('/all-transactions', (req, res) => {
     })
 })
 
+  // find a stripe.charge by id
 router.get('/that-charge', (req, res) => {
     const thatCharge = 'ch_1CDl88FewByiHSs3cyMAUBxP';
     stripe.charges.retrieve(thatCharge, (err, charge) => {
@@ -22,6 +24,19 @@ router.get('/that-charge', (req, res) => {
             res.sendStatus(500)
         } else {
             res.send(charge)
+        }
+    });
+});
+
+router.get('/that-card', (req, res) => {
+    const someCustomer
+    const theirCard = 'card_1CDl87FewByiHSs36I5Qlh6v';
+    stripe.customers.retrieveCard(thatCard, (err, card) => {
+        if(err){
+            console.log(err);
+            res.sendStatus(500);            
+        } else {
+            res.send(thatCard)
         }
     });
 });
@@ -165,6 +180,7 @@ function postNonprofit(nonprofit){
     })        
 }
 
+ // find a stripe.customer by id
 router.get('/customer/:customerId', (req, res) => {
     const customerId = req.params.customerId;
     stripe.customers.retrieve(customerId, (err, customer) => {
