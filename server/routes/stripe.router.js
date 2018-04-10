@@ -28,18 +28,18 @@ router.get('/that-charge', (req, res) => {
     });
 });
 
-router.get('/that-card', (req, res) => {
-    const someCustomer
-    const theirCard = 'card_1CDl87FewByiHSs36I5Qlh6v';
-    stripe.customers.retrieveCard(thatCard, (err, card) => {
-        if(err){
-            console.log(err);
-            res.sendStatus(500);            
-        } else {
-            res.send(thatCard)
-        }
-    });
-});
+// router.get('/that-card', (req, res) => {
+//     const someCustomer;
+//     const theirCard = 'card_1CDl87FewByiHSs36I5Qlh6v';
+//     stripe.customers.retrieveCard(thatCard, (err, card) => {
+//         if(err){
+//             console.log(err);
+//             res.sendStatus(500);            
+//         } else {
+//             res.send(thatCard)
+//         }
+//     });
+// });
 
 
 
@@ -192,5 +192,27 @@ router.get('/customer/:customerId', (req, res) => {
         }
     });
 });
+
+
+router.post('/oneTimeDonate', (req, res) => {
+    console.log(req.body);
+    
+    let donation = req.body;
+    stripe.charges.create({
+        amount: Number(donation.amount) * 100,
+        currency: 'usd',
+        customer: donation.customer,
+        metadata: {product_id: donation.product}
+    }, (err, plan) => {
+        if(err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        } 
+    });
+})
+// IN NEW BRANCH
+
 
 module.exports = router;

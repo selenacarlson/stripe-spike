@@ -33,4 +33,20 @@ myApp.controller('SubscribeController', ['$http', 'UserService', function($http,
 
     self.getNonprofits();
 
+    self.oneTimeDonation = { customer: UserService.user.customerId }
+
+    self.oneTimeDonate = function(charity) {
+        self.oneTimeDonation.product = charity;
+        $http({
+            method: 'POST',
+            url: '/stripe/oneTimeDonate',
+            data: self.oneTimeDonation
+        })
+        .then(response => {
+            console.log(response);
+            self.oneTimeDonation = { customer: self.user.customerId }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 }]); 

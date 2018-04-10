@@ -10,7 +10,8 @@ myApp.controller('AdminController', ['$http', function ($http) {
             data: newNonprofit
         })
         .then(function(res){
-            console.log(res); 
+            console.log(res);
+            self.newNonprofit = {}; 
         })
         .catch(function(error){
             console.log(error);
