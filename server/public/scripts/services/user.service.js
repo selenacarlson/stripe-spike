@@ -86,8 +86,8 @@ myApp.service('UserService', ['$http', function($http){
     }
 
     // Init
-    self.getStripeCustomerInfo();
-    self.getAllCharges();
-    self.getAllInvoices();
+    // self.getStripeCustomerInfo();
+    // self.getAllCharges();
+    // self.getAllInvoices();
 
 }]);

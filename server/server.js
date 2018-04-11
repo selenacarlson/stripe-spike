@@ -8,7 +8,7 @@ const env = require('dotenv').config();
 // Router
 const stripeRouter = require('./routes/stripe.router');
 const databaseRouter = require('./routes/database.router');
-
+const nonprofitRouter = require('./routes/nonprofit.router');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,7 +16,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 // user Router
 app.use('/stripe', stripeRouter);
 app.use('/database', databaseRouter);
+app.use('/nonprofit', nonprofitRouter);
 
+// use static files
 app.use(express.static('server/public'));
 
 const PORT = process.env.PORT || 5000;
