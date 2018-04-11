@@ -1,0 +1,63 @@
+
+<md-content>
+    <md-card>
+        <md-card-content>
+            <h1>Hello {{vm.user.name}} </h1>
+        </md-card-content>
+        <md-card-content>
+            This is your customer information
+
+            <h4>email</h4>
+            <div ng-hide="vm.editingEmail == true">
+                 {{vm.userService.stripeCustomerInfo.email}}
+                 <md-button ng-click="vm.editingEmail = true" class="md-primary md-raised">Edit</md-button>
+            </div>
+            <div ng-show="vm.editingEmail == true">
+                <input type="text" ng-value="vm.userService.stripeCustomerInfo.email" ng-model="vm.updatedEmail">
+                <md-button ng-click="vm.editingEmail = false; updateEmail(vm.updatedEmail)" class="md-raised">Cancel</md-button>
+                <md-button ng-click="vm.updateEmail(vm.userService.stripeCustomerInfo.id)" class="md-primary md-raised">Save Changes</md-button>
+            </div>
+          
+            <h4>cards</h4>
+            <div ng-hide="vm.editingCard == true">
+                <ul>
+                    <li ng-repeat="source in vm.userService.stripeCustomerInfo.sources.data">
+                        #### #### #### {{source.card.last4}}
+                    </li>
+                </ul>
+                <md-button ng-click="vm.editingCard = true" class="md-primary md-raised">Edit</md-button>
+            </div>
+            <div ng-show="vm.editingCard == true">
+                    <div class="cell example example1">
+                            <form id="register-form">
+                                <fieldset>
+                                    <div class="row">
+                                        <div id="example1-card"></div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                <md-button ng-click="vm.editingCard = false" class="md-raised">Cancel</md-button>
+                <md-button ng-click="vm.updateCard(vm.userService.stripeCustomerInfo.id)" class="md-primary md-raised">Save Changes</md-button>
+            </div>
+           
+            <h4>subscriptions</h4>
+            <ul>
+                <li ng-repeat="subscription in vm.userService.stripeCustomerInfo.subscriptions.data">
+                    Charity : Store the charity name in our database 
+                    <br>
+                    Plan {{subscription.plan.amount / 100 | currency}} per {{subscription.plan.interval}}
+                    <br>
+                    Start Date: {{ subscription.start * 1000 | date}}
+                    <br>
+                    <md-button ng-click="vm.unsubscribe(subscription.id)" class="md-raised md-warn">Unsubscribe</md-button>
+                </li>
+            </ul>
+           
+    
+        </md-card-content>
+       
+
+    </md-card>
+</md-content>
+

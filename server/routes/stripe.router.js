@@ -204,8 +204,6 @@ router.get('/customer/:customerId', (req, res) => {
 
 
 router.post('/oneTimeDonate', (req, res) => {
-    console.log(req.body);
-    
     let donation = req.body;
     stripe.charges.create({
         amount: Number(donation.amount) * 100,
@@ -221,6 +219,43 @@ router.post('/oneTimeDonate', (req, res) => {
         } 
     });
 })
+
+router.post('/updateCard', (req, res) => {
+    let customer = req.body;
+    stripe.customers.update(customer.id, {
+        source: customer.source,
+      }, (err, source) => {
+        if(err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        } 
+    });
+
+});
+
+router.post('/updateEmail', (req, res) => {
+    let customer = req.body;
+    stripe.customers.update(customer.id, {
+        email: customer.email,
+      }, (err, customer) => {
+        if(err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            res.sendStatus(200);
+        } 
+    });
+});
+
+router.post('/unsubscribe', (req, res) => {
+    let subscription_id = req.body.id;
+    stripe.subscriptions.del(subscription_id);
+    res.sendStatus(200);
+});
+
+
 // IN NEW BRANCH
 
 
