@@ -25,7 +25,7 @@ myApp.service('UserService', ['$http', function($http){
     self.getAllCharges = function () {
         $http.get('/stripe/all-charges')
             .then(response => {
-                console.log('CHARGES:',response.data.data);
+                // console.log('CHARGES:',response.data.data);
                 filterChargesByUser(response.data.data)
             }).catch(err => {
                 console.log(err);
@@ -34,8 +34,10 @@ myApp.service('UserService', ['$http', function($http){
 
     function filterChargesByUser (charges) {
         const usersCharges = charges.filter(item => {
+            // console.log(item.customer);
+            // console.log(self.user.customer_id);
             return item.customer == self.user.customer_id;
-        });  
+        });          
         filterUserChargeIdsByOrg (usersCharges);
     }
 
@@ -48,8 +50,7 @@ myApp.service('UserService', ['$http', function($http){
                 prodIds.push(charge.metadata.product_id);
             }
         }
-        let uniqueProdIds = [...new Set(prodIds)]
-        // console.log('USER CHARGES\' PROD IDS:', uniqueProdIds);
+        let uniqueProdIds = [...new Set(prodIds)];        
         getChargeObjectsForEachOrg (uniqueProdIds, userCharges);
     }
 
@@ -64,7 +65,7 @@ myApp.service('UserService', ['$http', function($http){
             }
             chargesByOrg.push(orgsCharges);
         }
-        console.log('CHARGES BY ORGANIZATION:', chargesByOrg); 
+        // console.log('CHARGES BY ORGANIZATION:', chargesByOrg); 
         self.user.stripeCustomerInfo.chargesByOrg = chargesByOrg;
     }
 
@@ -72,7 +73,7 @@ myApp.service('UserService', ['$http', function($http){
     self.getAllInvoices = function () {
         $http.get('/stripe/all-invoices')
         .then(response => {
-            console.log('ALL INVOICES:',response.data.data);
+            // console.log('ALL INVOICES:',response.data.data);
             filterInvoicesByUser(response.data.data)
         }).catch(err => {
             console.log(err);  
@@ -81,13 +82,15 @@ myApp.service('UserService', ['$http', function($http){
 
     function filterInvoicesByUser (invoices) {
         const userInvoices = invoices.filter(item => item.customer == self.user.customer_id);
-        console.log('USER INVOICES:', userInvoices);
+        // console.log('USER INVOICES:', userInvoices);
         self.user.stripeCustomerInfo.allInvoices = userInvoices;
+        console.log('USER SERVICE USER OBJECT:', self.user);
+        
     }
 
     // Init
-    // self.getStripeCustomerInfo();
-    // self.getAllCharges();
-    // self.getAllInvoices();
+    self.getStripeCustomerInfo();
+    self.getAllCharges();
+    self.getAllInvoices();
 
 }]);

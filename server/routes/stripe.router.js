@@ -18,7 +18,9 @@ router.get('/all-transactions', (req, res) => {
 // find a stripe.charge by id
 router.get('/all-charges', (req, res) => {
     // const thatCharge = 'ch_1CDl88FewByiHSs3cyMAUBxP';
-    stripe.charges.list( (err, charges) => {
+    stripe.charges.list(
+        {limit: 100},
+        (err, charges) => {
         if(err){
             console.log(err);
             res.sendStatus(500)
@@ -30,7 +32,9 @@ router.get('/all-charges', (req, res) => {
 
 //list all invoices
 router.get('/all-invoices', (req, res) => {
-    stripe.invoices.list( (err, invoices) => {
+    stripe.invoices.list( 
+        {limit: 100},
+        (err, invoices) => {
         if (err) {
             console.log(err);
             res.sendStatus(500)

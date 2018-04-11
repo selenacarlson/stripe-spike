@@ -13,7 +13,7 @@ myApp.service('NonprofitService', ['$http', function($http){
 
     
     // Init
-    self.getAggregateNonprofitData();
+    // self.getAggregateNonprofitData();
 
 
 }]);
