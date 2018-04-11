@@ -33,7 +33,7 @@ myApp.controller('SubscribeController', ['$http', 'UserService', function($http,
 
     self.getNonprofits();
 
-    self.oneTimeDonation = { customer: UserService.user.customerId }
+    self.oneTimeDonation = { customer: UserService.user.customer_id }
 
     self.oneTimeDonate = function(charity) {
         self.oneTimeDonation.product = charity;
@@ -44,7 +44,7 @@ myApp.controller('SubscribeController', ['$http', 'UserService', function($http,
         })
         .then(response => {
             console.log(response);
-            self.oneTimeDonation = { customer: self.user.customerId }
+            self.oneTimeDonation = { customer: self.user.customer_id }
         }).catch(err => {
             console.log(err);
         })

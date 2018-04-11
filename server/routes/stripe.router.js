@@ -15,33 +15,42 @@ router.get('/all-transactions', (req, res) => {
     })
 })
 
-  // find a stripe.charge by id
-router.get('/that-charge', (req, res) => {
-    const thatCharge = 'ch_1CDl88FewByiHSs3cyMAUBxP';
-    stripe.charges.retrieve(thatCharge, (err, charge) => {
+// find a stripe.charge by id
+router.get('/all-charges', (req, res) => {
+    // const thatCharge = 'ch_1CDl88FewByiHSs3cyMAUBxP';
+    stripe.charges.list( (err, charges) => {
         if(err){
             console.log(err);
             res.sendStatus(500)
         } else {
-            res.send(charge)
+            res.send(charges)
         }
     });
 });
 
-// router.get('/that-card', (req, res) => {
-//     const someCustomer;
-//     const theirCard = 'card_1CDl87FewByiHSs36I5Qlh6v';
-//     stripe.customers.retrieveCard(thatCard, (err, card) => {
-//         if(err){
-//             console.log(err);
-//             res.sendStatus(500);            
-//         } else {
-//             res.send(thatCard)
-//         }
-//     });
-// });
+//list all invoices
+router.get('/all-invoices', (req, res) => {
+    stripe.invoices.list( (err, invoices) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500)
+        } else {
+            res.send(invoices)
+        }
+    });
+});
 
-
+// list all orders
+router.get('/all-orders', (req, res) => {
+    stripe.orders.list( (err, orders) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);            
+        } else {
+            res.send(orders); 
+        }
+    });
+});
 
 
 // Send new customer email and source (encripted card token) 

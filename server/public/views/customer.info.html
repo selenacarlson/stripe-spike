@@ -24,7 +24,7 @@
             </ul>
            
 
-            <h4>subscriptions</h4>
+            <h4>Subscriptions</h4>
             <ul>
                 <li ng-repeat="subscription in vm.userService.stripeCustomerInfo.subscriptions.data">
                     Charity : Store the charity name in our database 
@@ -34,6 +34,35 @@
                     Start Date: {{ subscription.start * 1000 | date}}
                 </li>
             </ul>
+
+            <h4>Invoices</h4>
+            <ul>
+                <li ng-repeat="invoice in vm.userService.user.stripeCustomerInfo.allInvoices">
+                    Organization's Stripe ID: {{invoice.lines.data[0].plan.product}}
+                    <br>
+                    Amount Paid: {{invoice.amount_paid / 100 | currency}}
+                    <br>
+                    Billing: {{invoice.billing}}
+                    <br>
+                    Date: {{invoice.date * 1000 | date}}
+                    <br>
+                    Description: {{invoice.lines.data[0].description}}
+                    <br>
+                    Period: {{invoice.lines.data[0].period.start * 1000 | date}} to {{invoice.lines.data[0].period.end * 1000 | date}}
+                </li>
+            </ul>
+
+            <h4>One Time Donations</h4>
+            <div ng-repeat="org in vm.userService.user.stripeCustomerInfo.chargesByOrg">
+                Organization's Strip ID: {{org.uniqueId}}
+                <ul>
+                    <li ng-repeat="charge in org.charges">
+                       Amount: {{charge.amount / 100 | currency}}
+                       <br>
+                       Date: {{charge.created * 1000 | date}}
+                    </li>
+                </ul>
+            </div>
            
     
         </md-card-content>
