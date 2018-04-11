@@ -16,6 +16,10 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
         templateUrl: 'views/customer.info.html',
         controller: 'CustomerInfoController as vm'
     })
+    .when('/nonprofit-donation-info', {
+        templateUrl: 'views/nonprofit.donation.info.html',
+        controller: 'NPDonationInfoController as vm'
+    })
     .when('/subscribe', {
         templateUrl: 'views/subscribe.html',
         controller: 'SubscribeController as vm'
