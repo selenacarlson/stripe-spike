@@ -6,7 +6,19 @@ myApp.service('UserService', ['$http', function($http){
         stripeCustomerInfo: {
             allInvoices: [], // for subscriptions
             chargesByOrg: [], // for one-time charges
-        }
+        },
+        whatWeHaveInOurDatabase: {},
+    }
+
+    self.getUserInfoFromOurDatabase = function () {
+        $http.get('/database/user/cus_Cem5IQRcexcTZ6')
+        .then(response => {
+            self.user.whatWeHaveInOurDatabase = response.data.rows;
+            console.log('SELF.USER OBJECT:', self.user);
+            
+        }).catch(err => {
+            console.log(err);            
+        });
     }
 
     // find a stripe.customer by id
@@ -14,7 +26,7 @@ myApp.service('UserService', ['$http', function($http){
         $http.get(`/stripe/customer/${self.user.customer_id}`)
         .then(response => {
             self.stripeCustomerInfo = response.data;
-            console.log('CUSTOMER:', self.stripeCustomerInfo);
+            // console.log('CUSTOMER:', self.stripeCustomerInfo);
             
         }).catch(err => {
             console.log(err);  
@@ -73,7 +85,7 @@ myApp.service('UserService', ['$http', function($http){
     self.getAllInvoices = function () {
         $http.get('/stripe/all-invoices')
         .then(response => {
-            // console.log('ALL INVOICES:',response.data.data);
+            // console.log('ALL INVOICES RESPONSE.DATA:',response.data);
             filterInvoicesByUser(response.data.data)
         }).catch(err => {
             console.log(err);  
@@ -84,13 +96,14 @@ myApp.service('UserService', ['$http', function($http){
         const userInvoices = invoices.filter(item => item.customer == self.user.customer_id);
         // console.log('USER INVOICES:', userInvoices);
         self.user.stripeCustomerInfo.allInvoices = userInvoices;
-        console.log('USER SERVICE USER OBJECT:', self.user);
-        
+        // console.log('USER SERVICE USER OBJECT:', self.user);
     }
 
     // Init
-    self.getStripeCustomerInfo();
-    self.getAllCharges();
-    self.getAllInvoices();
+    // self.getStripeCustomerInfo();
+    // self.getAllCharges();
+    // self.getAllInvoices();
+
+    self.getUserInfoFromOurDatabase();
 
 }]);

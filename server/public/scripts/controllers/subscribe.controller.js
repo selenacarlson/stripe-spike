@@ -24,7 +24,7 @@ myApp.controller('SubscribeController', ['$http', 'UserService', function($http,
         let data = { planId: planId, customerId: UserService.user.customer_id };
         $http.post('/stripe/subscribe_to_plan', data)
             .then(response => {
-                console.log(response);
+                console.log('RETURNED SUBSCRIPTION', response);
             }).catch(err => {
                 console.log(err);
             });
@@ -44,7 +44,8 @@ myApp.controller('SubscribeController', ['$http', 'UserService', function($http,
         })
         .then(response => {
             console.log(response);
-            self.oneTimeDonation = { customer: self.user.customer_id }
+            // self.oneTimeDonation = { customer: UserService.user.customer_id };
+            UserService.getUserInfoFromOurDatabase();
         }).catch(err => {
             console.log(err);
         })

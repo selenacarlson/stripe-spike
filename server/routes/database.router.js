@@ -24,6 +24,19 @@ router.get('/customers', (req, res) => {
         });
 });
 
+// Get user information by id from our database
+router.get('/user/:id', (req, res) => {
+    let userId = req.params.id;
+    const sqlText = `SELECT ot.amount_charged, ot.product_id, ot.date, ot.nonprofit_id FROM users JOIN user_onetime_donations as ot
+                        ON ot.user_id = users.id;`;
+    pool.query(sqlText, [])
+    .then(response => {
+        res.send(response);
+    }).catch(err => {
+        console.log('ERROR on SELECT ot.amount_charged, ot.date, ot.nonprofit_id FROM users JOIN user_onetime_donations as ot:', err);
+        res.sendStatus(500);
+    });
+});
 
 
 

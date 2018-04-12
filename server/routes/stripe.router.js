@@ -39,6 +39,9 @@ router.get('/all-invoices', (req, res) => {
             console.log(err);
             res.sendStatus(500)
         } else {
+            if(invoices.has_more){
+                console.log('THERE ARE MORE INVOICES!!!!!!!');
+            }
             res.send(invoices)
         }
     });
@@ -100,16 +103,17 @@ router.post('/subscribe_to_plan', (req, res) => {
             {
                 plan: req.body.planId,
             }
-        ]
+        ], 
     }, (err, subscription) => {
         if(err){
             console.log(err);
             res.sendStatus(500);
         } else {
+            // putSubscriptionInDatabase(subscription)
             res.send(subscription);
         }
-    })
-})
+    });
+});
 
 let nonprofit = {};
 
@@ -214,15 +218,27 @@ router.post('/oneTimeDonate', (req, res) => {
         currency: 'usd',
         customer: donation.customer,
         metadata: {product_id: donation.product}
-    }, (err, plan) => {
+    }, (err, charge) => {
         if(err){
             res.sendStatus(500);
             console.log(err);
-        } else {
-            res.sendStatus(200);
+        } else {            
+            postChargeToDatabase(charge, res)
         } 
     });
 })
+
+function postChargeToDatabase (charge, res) {
+    const sqlText = `INSERT INTO user_onetime_donations (amount_charged, product_id, charge_id, transaction_id, captured, date, user_id, nonprofit_id)
+    VALUES ($1, $2, $3, $4, $5, $6, (SELECT id FROM users WHERE customer_id = $7), (SELECT id FROM nonprofits WHERE product_id = $8));`;
+    pool.query(sqlText, [charge.amount, charge.metadata.product_id, charge.id, charge.balance_transaction, charge.captured, new Date(charge.created * 1000), charge.customer, charge.metadata.product_id])
+    .then(response => {
+        res.sendStatus(200);
+    }).catch(err => {
+        console.log('ERROR on INSERT INTO user_onetime_donations:', err);
+        res.sendStatus(500);
+    });
+}
 
 router.post('/updateCard', (req, res) => {
     let customer = req.body;
