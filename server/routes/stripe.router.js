@@ -2,6 +2,8 @@ const express = require('express');
 const router = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const pool = require('../modules/pool');
+const userReports = require('../modules/stripe.user.reports');
+
 
 // Get all transactions on Whyatt's account
 router.get('/all-transactions', (req, res) => {
@@ -16,8 +18,9 @@ router.get('/all-transactions', (req, res) => {
 })
 
 // find a stripe.charge by id
-router.get('/all-charges', (req, res) => {
+router.get('/charges/:customerId', (req, res) => {
     // const thatCharge = 'ch_1CDl88FewByiHSs3cyMAUBxP';
+    const customerId = req.params.customerId;
     stripe.charges.list(
         {limit: 100},
         (err, charges) => {
@@ -25,13 +28,14 @@ router.get('/all-charges', (req, res) => {
             console.log(err);
             res.sendStatus(500)
         } else {
-            res.send(charges)
+            userReports.filterDataForUserReportOnOnetimeDonations(charges, customerId, res);
         }
     });
 });
 
 //list all invoices
-router.get('/all-invoices', (req, res) => {
+router.get('/invoices/:customerId', (req, res) => {
+    let customerId = req.params.customerId;
     stripe.invoices.list( 
         {limit: 100},
         (err, invoices) => {
@@ -42,7 +46,7 @@ router.get('/all-invoices', (req, res) => {
             if(invoices.has_more){
                 console.log('THERE ARE MORE INVOICES!!!!!!!');
             }
-            res.send(invoices)
+            userReports.filterDataForUserReportOnSubscriptionDonations(invoices, customerId, res);
         }
     });
 });
