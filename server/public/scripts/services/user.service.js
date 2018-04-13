@@ -4,6 +4,7 @@ myApp.service('UserService', ['$http', function($http){
         name: 'Jacob',
         customer_id: 'cus_Cem5IQRcexcTZ6',
         stripeCustomerInfo: {
+            customerObject: {},
             invoicesByOrg: [], // for subscriptions
             chargesByOrg: [], // for one-time charges
         },
@@ -14,8 +15,7 @@ myApp.service('UserService', ['$http', function($http){
         $http.get('/database/user/cus_Cem5IQRcexcTZ6')
         .then(response => {
             self.user.whatWeHaveInOurDatabase = response.data.rows;
-            // console.log('SELF.USER OBJECT:', self.user);
-            
+            console.log('SELF.USER OBJECT:', self.user);
         }).catch(err => {
             console.log(err);            
         });
@@ -25,7 +25,7 @@ myApp.service('UserService', ['$http', function($http){
     self.getStripeCustomerInfo = function () {
         $http.get(`/stripe/customer/${self.user.customer_id}`)
         .then(response => {
-            self.stripeCustomerInfo = response.data;
+            self.user.stripeCustomerInfo.customerObject = response.data;
             // console.log('CUSTOMER:', self.stripeCustomerInfo);
         }).catch(err => {
             console.log(err);  
@@ -50,7 +50,7 @@ myApp.service('UserService', ['$http', function($http){
         $http.get('/stripe/invoices/cus_Cem5IQRcexcTZ6')
         .then(response => {
             // console.log(response.data);
-            self.user.stripeCustomerInfo.invoicesByOrg = response.data[0];
+            self.user.stripeCustomerInfo.invoicesByOrg = response.data;
             console.log('self.user AFTER getAllInvoices:', self.user);
         }).catch(err => {
             console.log(err);  
@@ -58,7 +58,7 @@ myApp.service('UserService', ['$http', function($http){
     }
 
     // Init
-    // self.getStripeCustomerInfo();
+    self.getStripeCustomerInfo();
     self.getAllCharges();
     self.getAllInvoices();
 

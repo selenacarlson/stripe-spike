@@ -22,7 +22,7 @@
 
             <h4>Subscriptions</h4>
             <ul>
-                <li ng-repeat="subscription in vm.userService.stripeCustomerInfo.subscriptions.data">
+                <li ng-repeat="subscription in vm.userService.user.stripeCustomerInfo.customerObject.subscriptions.data">
                     Charity : Store the charity name in our database 
                     <br>
                     Plan {{subscription.plan.amount / 100 | currency}} per {{subscription.plan.interval}}
@@ -32,9 +32,10 @@
             </ul>
 
             <h4>Invoices</h4>
-            <ul>
-                <li ng-repeat="invoice in vm.userService.user.stripeCustomerInfo.allInvoices">
-                    Organization's Stripe ID: {{invoice.lines.data[0].plan.product}}
+            <ul ng-repeat="org in vm.userService.user.stripeCustomerInfo.invoicesByOrg">
+                {{org.productId}}
+                <li ng-repeat="invoice in org.invoices">
+                    Organization's Stripe ID: {{invoice.data[0].plan.product}}
                     <br>
                     Amount Paid: {{invoice.amount_paid / 100 | currency}}
                     <br>

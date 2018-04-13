@@ -1,5 +1,5 @@
 *** This is the STIPE SPIKE***
-
+<!-- 
 # Here, we aim to prove that to ourselves that we can do with stripe
 # what has been asked of us for the co-giv web app
 
@@ -23,9 +23,9 @@ A user needs to:
     - all time
 [] view aggregate giving in app
     - month
-    - all time
+    - all time -->
 
-
+<!-- 
 - ON USERSERVICE LOAD: Build current user with returned Stripe.customer object
     - That object includes:
         - id (Stripe ObjectId)
@@ -78,4 +78,4 @@ A user needs to:
                 
 
 
-       
+        -->

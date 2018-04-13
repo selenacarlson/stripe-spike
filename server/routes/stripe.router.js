@@ -14,8 +14,8 @@ router.get('/all-transactions', (req, res) => {
         } else {
             res.send(transactions)
         }
-    })
-})
+    });
+});
 
 // find a stripe.charge by id
 router.get('/charges/:customerId', (req, res) => {
